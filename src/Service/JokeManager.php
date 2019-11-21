@@ -4,14 +4,19 @@ namespace App\Service;
 
 class JokeManager
 {
-    public function __construct()
-    {
+    protected $jokes;
 
+    public function __construct(string $jokePath)
+    {
+        $json = file_get_contents($jokePath);
+        $data = json_decode($json, true);
+        $this->jokes = $data;
     }
 
     public function getJoke()
     {
-        return 'Funny joke';
+        $joke = $this->jokes[array_rand($this->jokes)];
+        return $joke['setup'] . "\n" . $joke['punchline'];
     }
 
     public function getJokeByCategory(string $category)
