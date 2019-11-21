@@ -20,6 +20,9 @@ class JokeController extends AbstractController
         else {
             $joke = $manager->getJokeByCategory($category);
         }
+        if ($joke === null) {
+            throw $this->createNotFoundException('No joke found');
+        }
         return $this->json([
             'message' => $joke,
         ]);

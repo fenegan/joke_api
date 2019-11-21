@@ -15,12 +15,26 @@ class JokeManager
 
     public function getJoke()
     {
+        if (empty($this->jokes)) {
+            return null;
+        }
         $joke = $this->jokes[array_rand($this->jokes)];
         return $joke['setup'] . "\n" . $joke['punchline'];
     }
 
     public function getJokeByCategory(string $category)
     {
-        return 'Funny specific joke on '.$category;
+        $ids = [];
+        foreach ($this->jokes as $key => $joke)
+        {
+            if ($joke['type'] === $category) {
+                $ids[] = $key;
+            }
+        }
+        if (empty($ids)) {
+            return null;
+        }
+        $joke = $this->jokes[$ids[array_rand($ids)]];
+        return $joke['setup'] . "\n" . $joke['punchline'];
     }
 }
